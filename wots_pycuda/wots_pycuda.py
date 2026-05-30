@@ -1,4 +1,4 @@
-import os
+﻿import os
 import numpy as np
 import hashlib, math
 import pycuda.autoinit
@@ -17,7 +17,7 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 _PLAINTEXT_DIR = os.path.join(_HERE, "plaintext")
 with open(os.path.join(_HERE, "wots_kernel.cu"), "r") as f:
     _CUDA_SRC = f.read()
-_mod = SourceModule(_CUDA_SRC, no_extern_c=True)
+_mod = SourceModule(_CUDA_SRC, no_extern_c=True, options=['-allow-unsupported-compiler'])
 _chain = _mod.get_function("wots_chain")
 
 #host
@@ -81,3 +81,4 @@ def verify(pk, file_name: str, sig):
     md = msg_digits(d)
     steps = np.array([(W - 1) - m for m in md], dtype=np.int32)
     return unpack(run_chain(pack(sig), steps), LEN) == pk
+
