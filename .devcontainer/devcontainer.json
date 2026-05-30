@@ -1,0 +1,14 @@
+{
+  "name": "CUDA Dev",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "dev",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "nvidia.nsight-vscode-edition"
+      ]
+    }
+  }
+}
