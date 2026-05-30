@@ -1,0 +1,12 @@
+FROM nvidia/cuda:12.4.1-devel-ubuntu22.04
+
+# Install basic build tools (Make)
+RUN apt-get update && apt-get install -y make && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy the entire project directory into the container
+COPY . .
+
+RUN make
+
