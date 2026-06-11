@@ -1,2 +1,10 @@
 __pycache__/
 progress/
+
+# compiled binaries and build artifacts
+xmss-cuda/build/
+wots_c/wots
+xmss_c/xmss
+xmss_c/tests/test_xmss
+xmss_c/tests/dump_vector
+xmss_c/tests/c_vector.txt

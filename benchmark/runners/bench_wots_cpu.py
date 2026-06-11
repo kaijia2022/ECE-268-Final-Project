@@ -2,7 +2,7 @@
 # Builds and runs the C baseline then collects its timings.
 # The fair compute number is the chain only timing since that is the exact
 # work the cuda kernel does. The whole op timing is kept for context.
-# The python baseline in wots_baseline is not benchmarked on purpose.
+# No python reference is benchmarked on purpose, only C vs GPU.
 
 import os
 import re

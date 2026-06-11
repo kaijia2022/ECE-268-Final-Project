@@ -1,6 +1,5 @@
 // WOTS in plain C
-// This is a strict port of wots_baseline/wots.py
-// Same params same F same H_msg same seeded keygen same checksum
+// Same params same F same H_msg same seeded keygen same checksum as the gpu version
 // Goal is a fair CPU baseline for the wots_pycuda GPU version
 // We use a software SHA256 here just like the GPU kernel so the
 // only real difference measured is the GPU parallelism
@@ -264,7 +263,7 @@ static void test_roundtrip(const uint8_t* msg, size_t len) {
 }
 
 int main(int argc, char** argv) {
-    const char* path = (argc > 1) ? argv[1] : "../wots_baseline/plaintext/short.txt";
+    const char* path = (argc > 1) ? argv[1] : "../wots_pycuda/plaintext/short.txt";
     size_t len;
     uint8_t* msg = read_file(path, &len);
 

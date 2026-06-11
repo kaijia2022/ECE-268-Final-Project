@@ -1,0 +1,68 @@
+{
+  "scheme": "xmss",
+  "impl": "cuda",
+  "params": {
+    "n": 32,
+    "w": 16,
+    "len": 67,
+    "height": 3
+  },
+  "seed": "fixed 0x11 0x22 0x33",
+  "message_bytes": 20,
+  "kernel_iters": 200,
+  "single_sig_timing": {
+    "kernel_only_us": {
+      "keygen": 2542.812,
+      "sign": 571.954,
+      "verify": 2442.451
+    },
+    "end_to_end_us": {
+      "keygen": 3172.27,
+      "sign": 1313.046,
+      "verify": 3111.032
+    }
+  },
+  "keygen_scaling": [
+    {
+      "height": 3,
+      "leaves": 8,
+      "kernel_leaves_us": 2331.727,
+      "kernel_root_us": 213.611,
+      "kernel_total_us": 2545.338,
+      "end_to_end_us": 3205.435,
+      "kernel_leaves_per_sec": 3143.0010474050987,
+      "end_to_end_leaves_per_sec": 2495.761105746958
+    },
+    {
+      "height": 5,
+      "leaves": 32,
+      "kernel_leaves_us": 2330.621,
+      "kernel_root_us": 939.575,
+      "kernel_total_us": 3270.196,
+      "end_to_end_us": 3786.409,
+      "kernel_leaves_per_sec": 9785.346199432695,
+      "end_to_end_leaves_per_sec": 8451.279299198792
+    },
+    {
+      "height": 7,
+      "leaves": 128,
+      "kernel_leaves_us": 2544.127,
+      "kernel_root_us": 3812.819,
+      "kernel_total_us": 6356.946,
+      "end_to_end_us": 6742.94,
+      "kernel_leaves_per_sec": 20135.45498105537,
+      "end_to_end_leaves_per_sec": 18982.817584021213
+    },
+    {
+      "height": 10,
+      "leaves": 1024,
+      "kernel_leaves_us": 11608.455,
+      "kernel_root_us": 30762.554,
+      "kernel_total_us": 42371.009,
+      "end_to_end_us": 41500.357,
+      "kernel_leaves_per_sec": 24167.46790240469,
+      "end_to_end_leaves_per_sec": 24674.486535139924
+    }
+  ],
+  "source": "xmss-cuda/bench.cu kernels timed with cuda events on the gpu"
+}

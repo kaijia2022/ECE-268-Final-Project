@@ -1,14 +1,14 @@
 {
   "scheme": "ecdsa",
-  "impl": "cryptography-secp256r1",
-  "curve": "secp256r1",
-  "message_hash": "sha256",
+  "impl": "cryptography-secp521r1",
+  "curve": "secp521r1",
+  "message_hash": "sha512",
   "iters": 5000,
   "sizes_bytes": {
-    "private_key": 32,
-    "public_key": 33,
-    "signature": 64,
-    "signature_der": 71
+    "private_key": 66,
+    "public_key": 67,
+    "signature": 132,
+    "signature_der": 139
   },
   "hash_counts": {
     "keygen": {
@@ -22,9 +22,9 @@
     }
   },
   "timing_us": {
-    "keygen": 6.9427790000190726,
-    "sign": 13.221050999709405,
-    "verify": 35.06737839998095
+    "keygen": 67.93436240004667,
+    "sign": 136.5942698001163,
+    "verify": 244.07156960005523
   },
   "source": "cryptography library openssl backend on the cpu"
 }

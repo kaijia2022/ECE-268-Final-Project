@@ -1,0 +1,35 @@
+{
+  "scheme": "xmss",
+  "impl": "c",
+  "params": {
+    "n": 32,
+    "w": 16,
+    "len": 67,
+    "height": 3
+  },
+  "iters": 200,
+  "seed": "fixed 0x11 0x22 0x33",
+  "message_bytes": 20,
+  "sizes_bytes": {
+    "private_key": 100,
+    "public_key": 32,
+    "signature": 2276
+  },
+  "hash_counts": {
+    "keygen": {
+      "total_sha256": 26796
+    },
+    "sign": {
+      "total_sha256": 1627
+    },
+    "verify": {
+      "total_sha256": 1762
+    }
+  },
+  "timing_us": {
+    "keygen": 8981.761,
+    "sign": 550.388,
+    "verify": 586.724
+  },
+  "source": "xmss_c/xmss.c built with -O3 -march=native single thread software sha256"
+}

@@ -1,8 +1,17 @@
 # ECDSA reference for the size and speed comparison
-# ECDSA is not implemented by us. We use P-256 because our plain WOTS with a
-# deterministic message hash is bounded by SHA-256 collision resistance which
-# is ~128 bit classical, the same level as P-256. So this is an equal level
-# comparison. Sizes are derived from the curve. Speed is timed for context.
+# ECDSA is not implemented by us. We compare each of our schemes against the
+# ECDSA curve at the same classical security level. Sizes come from the curve.
+# Speed is timed for context.
+#
+# P-256 ~128 bit classical pairs with our plain WOTS. That WOTS has no chain
+# bitmask and a deterministic message hash so a forger only needs a SHA-256
+# collision which is 2^128, the same level as P-256.
+#
+# P-521 ~256 bit classical pairs with our XMSS. XMSS uses W-OTS+ with bitmasks
+# and a secret randomized message hash that binds the root and the leaf index.
+# That kills the offline collision shortcut so security rests on second preimage
+# which is ~2^256 minus a tiny multi target loss, the 256 bit tier, like P-521.
+# A 256 bit curve is paired with SHA-512 so the hash matches the curve strength.
 
 import os
 import sys
@@ -16,32 +25,35 @@ from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 
 ITERS = int(os.environ.get("ECDSA_ITERS", "5000"))
 
-# name is the output json file, curve is the cryptography curve object
+# name is the output json file, curve is the cryptography curve object,
+# hash is the message hash paired with the curve at its security level
 CURVES = [
-    ("ecdsa", "secp256r1", ec.SECP256R1()),
+    ("ecdsa", "secp256r1", ec.SECP256R1(), hashes.SHA256()),
+    ("ecdsa_p521", "secp521r1", ec.SECP521R1(), hashes.SHA512()),
 ]
 
 
-def bench_curve(name, label, curve):
+def bench_curve(name, label, curve, hash_alg):
     msg = c.bench_message()
 
     priv = ec.generate_private_key(curve)
     pub = priv.public_key()
-    sig = priv.sign(msg, ec.ECDSA(hashes.SHA256()))
+    sig = priv.sign(msg, ec.ECDSA(hash_alg))
 
     # sizes come from the field size so nothing is hard coded
     field_bytes = (curve.key_size + 7) // 8
     pub_compressed = len(pub.public_bytes(Encoding.X962, PublicFormat.CompressedPoint))
 
     keygen_us = c.time_us(lambda: ec.generate_private_key(curve), ITERS)
-    sign_us = c.time_us(lambda: priv.sign(msg, ec.ECDSA(hashes.SHA256())), ITERS)
+    sign_us = c.time_us(lambda: priv.sign(msg, ec.ECDSA(hash_alg)), ITERS)
     verify_us = c.time_us(
-        lambda: pub.verify(sig, msg, ec.ECDSA(hashes.SHA256())), ITERS)
+        lambda: pub.verify(sig, msg, ec.ECDSA(hash_alg)), ITERS)
 
     data = {
         "scheme": "ecdsa",
         "impl": "cryptography-" + label,
         "curve": label,
+        "message_hash": hash_alg.name,
         "iters": ITERS,
         # raw r and s is 2 field elements, the der encoding is a bit larger
         "sizes_bytes": {
@@ -67,8 +79,8 @@ def bench_curve(name, label, curve):
 
 
 def main():
-    for name, label, curve in CURVES:
-        bench_curve(name, label, curve)
+    for name, label, curve, hash_alg in CURVES:
+        bench_curve(name, label, curve, hash_alg)
 
 
 if __name__ == "__main__":

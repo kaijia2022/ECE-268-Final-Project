@@ -33,14 +33,14 @@
   },
   "timing_us": {
     "chain_only": {
-      "keygen": 315.926,
-      "sign": 174.041,
-      "verify": 145.807
+      "keygen": 315.562,
+      "sign": 169.227,
+      "verify": 147.428
     },
     "whole_op": {
-      "keygen": 330.994,
-      "sign": 170.306,
-      "verify": 146.258
+      "keygen": 320.729,
+      "sign": 170.834,
+      "verify": 144.642
     }
   },
   "source": "wots_c/wots.c built with -O3 -march=native single thread"

@@ -15,7 +15,7 @@ RESULTS_DIR = os.path.join(HERE, "results")
 PLOTS_DIR = os.path.join(HERE, "plots")
 
 # the same message all implementations sign so the numbers line up
-BENCH_MSG_FILE = os.path.join(REPO, "wots_baseline", "plaintext", "short.txt")
+BENCH_MSG_FILE = os.path.join(REPO, "wots_pycuda", "plaintext", "short.txt")
 
 # the fixed seed the bench uses so keys are reproducible
 BENCH_SEED = b"bench_seed"
@@ -33,6 +33,20 @@ SIZES_BYTES = {
     "public_key": LEN * N,
     "signature": LEN * N,
 }
+
+
+# ---------- XMSS sizes ----------
+# XMSS sizes depend on the tree height so they are a function not a constant.
+# signature  = leaf_idx 4 + randomness r N + wots_sig LEN*N + auth_path height*N
+# public key = the merkle root, N bytes
+# private key = three seeds 3*N plus the 4 byte next_idx state index
+
+def xmss_sizes(height):
+    return {
+        "private_key": 3 * N + 4,
+        "public_key": N,
+        "signature": 4 + N + LEN * N + height * N,
+    }
 
 
 def bench_message():
