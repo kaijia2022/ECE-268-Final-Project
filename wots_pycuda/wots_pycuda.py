@@ -1,4 +1,5 @@
 ﻿import os
+import secrets
 import numpy as np
 import hashlib, math
 import pycuda.autoinit
@@ -55,7 +56,9 @@ def msg_digits(digest32: bytes):
     return msg + base_w(csum_bytes, LEN2)
 
 def H_msg(message: bytes) -> bytes:
-    return hashlib.sha256(b'\x02' * N + message).digest()
+    # toByte(2, 32) is the number 2 as 32 big endian bytes so it is 31 zeros then a 2
+    # this matches the CPU baseline and RFC 8391
+    return hashlib.sha256((2).to_bytes(N, "big") + message).digest()
 
 def hash_file(file_name: str) -> bytes:
     with open(os.path.join(_PLAINTEXT_DIR, file_name), "rb") as f:
@@ -65,11 +68,16 @@ def prg(seed: bytes, i: int):
     return hashlib.sha256(seed + i.to_bytes(4, "big")).digest()
 
 # WOTS KeyGen
-def keygen(seed: bytes):
+# pass a fixed seed to reproduce the same keys
+# pass nothing to draw a fresh 32 byte seed from the OS random source
+# the returned seed lets you rebuild the same keys later
+def keygen(seed: bytes = None):
+    if seed is None:
+        seed = secrets.token_bytes(N)
     sk = [prg(seed, i) for i in range(LEN)]
     steps = np.full(LEN, W - 1, dtype=np.int32)
     pk = unpack(run_chain(pack(sk), steps), LEN)
-    return sk, pk
+    return sk, pk, seed
 #WOTS Sign
 def sign(sk, file_name: str):
     d = hash_file(file_name)

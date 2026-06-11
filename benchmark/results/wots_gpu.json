@@ -1,0 +1,77 @@
+{
+  "scheme": "wots",
+  "impl": "pycuda",
+  "params": {
+    "n": 32,
+    "w": 16,
+    "len": 67
+  },
+  "seed": "bench_seed",
+  "message_bytes": 20,
+  "kernel_iters": 2000,
+  "e2e_iters": 1000,
+  "single_sig_timing": {
+    "kernel_only_us": {
+      "keygen": 27.63827133178711,
+      "sign": 28.034320831298828,
+      "verify": 27.57756805419922
+    },
+    "end_to_end_us": {
+      "keygen": 775.9286189993873,
+      "sign": 706.7045990006591,
+      "verify": 688.9099620002526
+    }
+  },
+  "batch_keygen": [
+    {
+      "keys": 1,
+      "kernel_us": 27.04889678955078,
+      "end_to_end_us": 753.7761440007671,
+      "kernel_keys_per_sec": 36970.084502163816,
+      "end_to_end_keys_per_sec": 1326.6538188544507
+    },
+    {
+      "keys": 4,
+      "kernel_us": 49.15852737426758,
+      "end_to_end_us": 763.7963720007974,
+      "kernel_keys_per_sec": 81369.40249544237,
+      "end_to_end_keys_per_sec": 5236.997904980653
+    },
+    {
+      "keys": 16,
+      "kernel_us": 50.48652648925781,
+      "end_to_end_us": 744.3574032373774,
+      "kernel_keys_per_sec": 316916.2371153495,
+      "end_to_end_keys_per_sec": 21495.05053676152
+    },
+    {
+      "keys": 64,
+      "kernel_us": 49.23840045928955,
+      "end_to_end_us": 778.7496999753785,
+      "kernel_keys_per_sec": 1299798.519103304,
+      "end_to_end_keys_per_sec": 82183.01721595973
+    },
+    {
+      "keys": 256,
+      "kernel_us": 52.977280616760254,
+      "end_to_end_us": 824.2855499702273,
+      "kernel_keys_per_sec": 4832260.112630433,
+      "end_to_end_keys_per_sec": 310571.9856538145
+    },
+    {
+      "keys": 1024,
+      "kernel_us": 185.24351119995117,
+      "end_to_end_us": 2027.9255999867016,
+      "kernel_keys_per_sec": 5527858.942895431,
+      "end_to_end_keys_per_sec": 504949.4912469742
+    },
+    {
+      "keys": 4096,
+      "kernel_us": 749.0688323974609,
+      "end_to_end_us": 3642.099450007663,
+      "kernel_keys_per_sec": 5468122.31779874,
+      "end_to_end_keys_per_sec": 1124626.0724680054
+    }
+  ],
+  "source": "wots_pycuda kernel wots_chain on the gpu"
+}

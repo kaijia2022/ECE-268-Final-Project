@@ -1,0 +1,47 @@
+{
+  "scheme": "wots",
+  "impl": "c",
+  "params": {
+    "n": 32,
+    "w": 16,
+    "len": 67
+  },
+  "iters": 5000,
+  "seed": "bench_seed",
+  "message_bytes": 20,
+  "sizes_bytes": {
+    "private_key": 2144,
+    "public_key": 2144,
+    "signature": 2144
+  },
+  "hash_counts": {
+    "keygen": {
+      "f_calls": 1005,
+      "seed_derive_sha": 67,
+      "total_sha256": 1072
+    },
+    "sign": {
+      "f_calls": 540,
+      "h_msg_sha": 1,
+      "total_sha256": 541
+    },
+    "verify": {
+      "f_calls": 465,
+      "h_msg_sha": 1,
+      "total_sha256": 466
+    }
+  },
+  "timing_us": {
+    "chain_only": {
+      "keygen": 315.926,
+      "sign": 174.041,
+      "verify": 145.807
+    },
+    "whole_op": {
+      "keygen": 330.994,
+      "sign": 170.306,
+      "verify": 146.258
+    }
+  },
+  "source": "wots_c/wots.c built with -O3 -march=native single thread"
+}
